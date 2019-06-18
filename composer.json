@@ -1,0 +1,16 @@
+{
+    "autoload": {
+        "psr-4": {
+            "School\\": "src/"
+        }
+    },
+    "require": {
+        "erandir/plug-route": "^3.3",
+        "vlucas/phpdotenv": "^2.5",
+        "symfony/var-dumper": "^4.1",
+        "symfony/debug": "^4.1",
+        "symfony/console": "^4.2",
+        "doctrine/orm": "^2.6",
+        "beberlei/DoctrineExtensions": "^1.1"
+    }
+}
