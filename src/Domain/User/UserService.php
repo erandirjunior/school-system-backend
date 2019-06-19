@@ -4,6 +4,7 @@ namespace School\Domain\User;
 
 use School\Domain\User\Entities\User;
 use School\Infrastructure\Domain\Repository\UserRepository;
+use School\Infrastructure\Persistence\EntityDataBase;
 
 class UserService
 {
@@ -21,12 +22,13 @@ class UserService
 	{
 		$user = new User();
 		$user
-			->setName('Erandir')
-			->setEmail('teste@teste.com')
+			->setName('Erandir22')
+			->setEmail('teste@teste.co.brm')
 			->setPassword(123445);
 
-		dump([$user, $this->repository->findAll()]);
 
-		dump($this->repository->persist($user));
-	}
+        $this->repository->persist($user);
+        dump($this->repository->flush());
+        dump([$user, $this->repository->findAll()]);
+    }
 }
