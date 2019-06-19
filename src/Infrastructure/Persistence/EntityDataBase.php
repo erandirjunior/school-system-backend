@@ -2,11 +2,9 @@
 
 namespace School\Infrastructure\Persistence;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
 use DoctrineExtensions\Query\Mysql\ConcatWs;
 use DoctrineExtensions\Query\Mysql\DateAdd;
@@ -14,29 +12,47 @@ use DoctrineExtensions\Query\Mysql\DateFormat;
 use DoctrineExtensions\Query\Mysql\IfElse;
 use DoctrineExtensions\Query\Mysql\Replace;
 use DoctrineExtensions\Query\Mysql\Rpad;
+use \Doctrine\ORM\Mapping\Driver\XmlDriver;
 
+/**
+ * Class EntityDataBase
+ * @package School\Infrastructure\Persistence
+ */
 class EntityDataBase
 {
-	private $config;
+    /**
+     * @var Setup
+     */
+    private $config;
 
-	private $connection;
+    /**
+     * @var EntityManager
+     */
+    private $connection;
 
-	public function __construct()
+    /**
+     * EntityDataBase constructor.
+     */
+    public function __construct()
 	{
 		$this->connect();
 	}
 
-	public function getConnection()
+    /**
+     * @return EntityManager
+     */
+    public function getConnection(): EntityManager
 	{
 		return $this->connection;
 	}
 
-	private function getArrayCache()
-	{
-		return new ArrayCache();
-	}
-
-	public function connect()
+    /**
+     * Inicialize database connection
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Doctrine\ORM\ORMException
+     */
+    private function connect(): void
 	{
 		$path = __DIR__.'/../Entities/';
 
@@ -56,9 +72,7 @@ class EntityDataBase
 			)
 		];
 
-		//$driver = new AnnotationDriver(new AnnotationReader(), $path);
-
-		$this->createConfiguration('', $cache, $path);
+		$this->createConfiguration($cache, $path);
 		$this->setSqlFunctions();
 
 		$this->connection = EntityManager::create($dbParamss, $this->config);
@@ -67,7 +81,46 @@ class EntityDataBase
 		$platform->registerDoctrineTypeMapping('enum', 'string');
 	}
 
-	private function setSqlFunctions()
+    /**
+     * Get cache.
+     *
+     * @return ArrayCache
+     */
+    private function getArrayCache(): ArrayCache
+    {
+        return new ArrayCache();
+    }
+
+    /**
+     * Create configuration of cache, proxy and metadata driver.
+     *
+     * @param $cache
+     * @param $path
+     */
+    private function createConfiguration($cache, $path): void
+    {
+        $this->config =  Setup::createConfiguration();
+        $this->config->setMetadataCacheImpl($cache);
+        $this->config->setQueryCacheImpl($cache);
+        $this->config->setProxyDir($path.'Proxies/');
+        $this->config->setProxyNamespace('School\Proxies');
+        $this->config->setMetadataDriverImpl($this->getDriver($path));
+        $this->config->setAutoGenerateProxyClasses(true);
+    }
+
+    /**
+     * @param $path string
+     * @return XmlDriver
+     */
+    private function getDriver($path): XmlDriver
+    {
+        new XmlDriver($path);
+    }
+
+    /**
+     * Add sql functions to work on dql mode.
+     */
+    private function setSqlFunctions(): void
 	{
 		$this->config->addCustomDatetimeFunction('DATE_FORMAT', DateFormat::class);
 		$this->config->addCustomStringFunction('IF', IfElse::class);
@@ -75,22 +128,5 @@ class EntityDataBase
 		$this->config->addCustomStringFunction('RPAD', Rpad::class);
 		$this->config->addCustomStringFunction('CONCAT_WS', ConcatWs::class);
 		$this->config->addCustomStringFunction('DATEADD', DateAdd::class);
-
-	}
-
-	private function createConfiguration($driver, $cache, $path){
-
-		$this->config =  Setup::createConfiguration();
-		$this->config->setMetadataCacheImpl($cache);
-		$this->config->setQueryCacheImpl($cache);
-		$this->config->setProxyDir($path.'Proxies/');
-		$this->config->setProxyNamespace('Plenus\Proxies');
-		//$driver = new \Doctrine\ORM\Mapping\Driver\XmlDriver(array($path));
-		$driver = new \Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver([$path => '\School\Domain\User\Entities\User.php']);
-		$this->config->setsetMetadataDriverImpl($driver);
-
-		$this->config->setAutoGenerateProxyClasses(true);
-
-		//$this->config = Setup::createXMLMetadataConfiguration([$path], false, null, $cache);
 	}
 }
