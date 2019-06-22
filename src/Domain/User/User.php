@@ -1,18 +1,40 @@
 <?php
 
-namespace School\Domain\User\Entities;
+namespace School\Domain\User;
 
+use School\Domain\Category\Category;
+
+/**
+ * Class User
+ * @package School\Domain\User\Entities
+ */
 class User
 {
+	/**
+	 * @var
+	 */
 	private $id;
 
+	/**
+	 * @var
+	 */
 	private $name;
 
+	/**
+	 * @var
+	 */
 	private $email;
 
+	/**
+	 * @var
+	 */
 	private $password;
 
+	/**
+	 * @var
+	 */
 	private $categoryId;
+
 	/**
 	 * @return mixed
 	 */
@@ -30,7 +52,9 @@ class User
 	}
 
 	/**
-	 * @param mixed $name
+	 * @param $name
+	 *
+	 * @return User
 	 */
 	public function setName($name): User
 	{
@@ -48,7 +72,9 @@ class User
 	}
 
 	/**
-	 * @param mixed $email
+	 * @param $email
+	 *
+	 * @return User
 	 */
 	public function setEmail($email): User
 	{
@@ -66,7 +92,9 @@ class User
 	}
 
 	/**
-	 * @param mixed $password
+	 * @param $password
+	 *
+	 * @return User
 	 */
 	public function setPassword($password): User
 	{
@@ -84,10 +112,14 @@ class User
 	}
 
 	/**
-	 * @param mixed $categoryId
+	 * @param Category $categoryId
+	 *
+	 * @return User
 	 */
-	public function setCategoryId($categoryId): void
+	public function setCategoryId(Category $categoryId): User
 	{
 		$this->categoryId = $categoryId;
+
+		return $this;
 	}
 }
