@@ -2,17 +2,17 @@
 
 namespace School\Infrastructure\Provider;
 
-use School\Domain\User\UserService;
-use School\Domain\User\UserValidator;
+use School\Domain\Category\CategoryService;
+use School\Domain\Category\CategoryValidator;
 use School\Infrastructure\Factory\FactoryProvider;
 use School\Infrastructure\Persistence\EntityManagerFactory;
 
-class UserServiceProvider implements FactoryProvider
+class CategoryServiceProvider implements FactoryProvider
 {
 	public function create()
 	{
 		$connection = EntityManagerFactory::connection();
 
-		return new UserService($connection, new UserValidator());
+		return new CategoryService($connection, new CategoryValidator());
 	}
 }
