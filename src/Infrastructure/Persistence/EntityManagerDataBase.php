@@ -15,10 +15,10 @@ use DoctrineExtensions\Query\Mysql\Rpad;
 use \Doctrine\ORM\Mapping\Driver\XmlDriver;
 
 /**
- * Class EntityManager
+ * Class EntityManagerDataBase
  * @package School\Infrastructure\Persistence
  */
-class EntityManager
+class EntityManagerDataBase
 {
     /**
      * @var Setup
@@ -26,12 +26,12 @@ class EntityManager
     private $config;
 
     /**
-     * @var EntityManager
+     * @var EntityManagerDataBase
      */
     private $connection;
 
     /**
-     * EntityManager constructor.
+     * EntityManagerDataBase constructor.
      */
     public function __construct()
 	{
@@ -39,7 +39,7 @@ class EntityManager
 	}
 
     /**
-     * @return EntityManager
+     * @return EntityManagerDataBase
      */
     public function getConnection(): EntityManager
 	{
@@ -47,35 +47,22 @@ class EntityManager
 	}
 
     /**
-     * Inicialize database connection
+     * Inicialize database connection.
      *
      * @throws \Doctrine\DBAL\DBALException
      * @throws \Doctrine\ORM\ORMException
      */
     private function connect(): void
 	{
-		$path = __DIR__.'/../Entities/';
-
 		AnnotationRegistry::registerLoader('class_exists');
 
-		$cache = $this->getArrayCache();
+		$cache 		= $this->getArrayCache();
+		$dbConfig 	= $this->getDataBaseCredentials();
 
-		$dbParamss = [
-			'driver'   => 'pdo_mysql',//$_ENV['DB_DRIVE'],
-			'user'     => 'root',//$_ENV['DB_USER'],
-			'password' => 'root',//$_ENV['DB_PASS'],
-			'host'     => 'localhost',//$_ENV['DB_HOST'],
-			'dbname'   => 'school',//$_ENV['DB_BASE'],
-			'charset'  => 'utf8',
-			'driverOptions' => array(
-				1002 => 'SET NAMES utf8'
-			)
-		];
-
-		$this->createConfiguration($cache, $path);
+		$this->createConfiguration($cache);
 		$this->setSqlFunctions();
 
-		$this->connection = EntityManager::create($dbParamss, $this->config);
+		$this->connection = EntityManager::create($dbConfig, $this->config);
 
 		$platform = $this->connection->getConnection()->getDatabasePlatform();
 		$platform->registerDoctrineTypeMapping('enum', 'string');
@@ -97,24 +84,36 @@ class EntityManager
      * @param $cache
      * @param $path
      */
-    private function createConfiguration($cache, $path): void
+    private function createConfiguration($cache): void
     {
         $this->config =  Setup::createConfiguration();
         $this->config->setMetadataCacheImpl($cache);
         $this->config->setQueryCacheImpl($cache);
-        $this->config->setProxyDir($path.'Proxies/');
+        $this->config->setProxyDir($this->getPathProxy());
         $this->config->setProxyNamespace('School\Proxies');
-        $this->config->setMetadataDriverImpl($this->getDriver($path));
+        $this->config->setMetadataDriverImpl($this->getDriver());
         $this->config->setAutoGenerateProxyClasses(true);
     }
 
+	private function getPathMapping()
+	{
+		return __DIR__.'/../Mapping/';
+    }
+
+	private function getPathProxy()
+	{
+		return __DIR__.'/../Proxy/';
+    }
+
     /**
+	 * Create XmlDriver.
+	 *
      * @param $path string
      * @return XmlDriver
      */
-    private function getDriver($path): XmlDriver
+    private function getDriver(): XmlDriver
     {
-        return new XmlDriver($path);
+        return new XmlDriver($this->getPathMapping());
     }
 
     /**
@@ -128,5 +127,24 @@ class EntityManager
 		$this->config->addCustomStringFunction('RPAD', Rpad::class);
 		$this->config->addCustomStringFunction('CONCAT_WS', ConcatWs::class);
 		$this->config->addCustomStringFunction('DATEADD', DateAdd::class);
+	}
+
+	/**
+	 * Return database credentials.
+	 *
+	 * @return array
+	 */
+	private function getDataBaseCredentials(): array
+	{
+		return [
+			'driver' => 'pdo_mysql',//$_ENV['DB_DRIVE'],
+			'user' => 'root',//$_ENV['DB_USER'],
+			'password' => 'root',//$_ENV['DB_PASS'],
+			'host' => 'localhost',//$_ENV['DB_HOST'],
+			'dbname' => 'school',//$_ENV['DB_BASE'],
+			'charset' => 'utf8', 'driverOptions' => array(
+				1002 => 'SET NAMES utf8'
+			)
+		];
 	}
 }

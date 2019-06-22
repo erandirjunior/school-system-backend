@@ -2,10 +2,10 @@
 
 namespace School\Infrastructure\Persistence;
 
-class EnttityManagerFactory
+class EntityManagerFactory
 {
 	public static function connection()
 	{
-		return (new EntityManager())->getConnection();
+		return (new EntityManagerDataBase())->getConnection();
 	}
 }
