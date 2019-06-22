@@ -4,9 +4,9 @@ namespace School\Application\Controller;
 
 use PlugRoute\Http\Request;
 use School\Infrastructure\Controller\Controller;
-use School\Infrastructure\Provider\UserServiceProvider;
+use School\Infrastructure\Provider\CategoryServiceProvider;
 
-class UserController extends Controller
+class CategoryController extends Controller
 {
 	/**
 	 * @var \School\Domain\User\CategoryService
@@ -16,7 +16,7 @@ class UserController extends Controller
 	private $request;
 
 	public function __construct(Request $request,
-								UserServiceProvider $userServiceProvider)
+								CategoryServiceProvider $userServiceProvider)
 	{
 		$this->service = $userServiceProvider->create();
 		$this->request = $request;
@@ -24,15 +24,16 @@ class UserController extends Controller
 
 	public function show()
 	{
-		$this->service->show();
+		/*$a = new UserRepository((new EntityManagerDataBase())->getConnection(), new ClassMetadata(TbTeste::class));
+		dump($a->findAll());*/
 	}
 
 	public function create()
 	{
-		$content 	= $this->request->all();
+		$content 	= 'teste';//$this->request->all();
 		$response 	= $this->service->create($content);
 
-		echo $this->setStatusCode($response['code'])->json($response['message']);
+		//echo $this->setStatusCode($response['code'])->json($response['message']);
 	}
 
 	public function update()
