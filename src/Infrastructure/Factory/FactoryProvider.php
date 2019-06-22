@@ -2,7 +2,7 @@
 
 namespace School\Infrastructure\Factory;
 
-interface FactoryService
+interface FactoryProvider
 {
 	/**
 	 * return a new Service.
