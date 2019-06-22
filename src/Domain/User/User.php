@@ -12,6 +12,7 @@ class User
 
 	private $password;
 
+	private $categoryId;
 	/**
 	 * @return mixed
 	 */
@@ -72,5 +73,21 @@ class User
 		$this->password = $password;
 
 		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getCategoryId()
+	{
+		return $this->categoryId;
+	}
+
+	/**
+	 * @param mixed $categoryId
+	 */
+	public function setCategoryId($categoryId): void
+	{
+		$this->categoryId = $categoryId;
 	}
 }

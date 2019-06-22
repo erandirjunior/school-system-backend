@@ -15,10 +15,10 @@ use DoctrineExtensions\Query\Mysql\Rpad;
 use \Doctrine\ORM\Mapping\Driver\XmlDriver;
 
 /**
- * Class EntityDataBase
+ * Class EntityManager
  * @package School\Infrastructure\Persistence
  */
-class EntityDataBase
+class EntityManager
 {
     /**
      * @var Setup
@@ -31,7 +31,7 @@ class EntityDataBase
     private $connection;
 
     /**
-     * EntityDataBase constructor.
+     * EntityManager constructor.
      */
     public function __construct()
 	{
@@ -114,7 +114,7 @@ class EntityDataBase
      */
     private function getDriver($path): XmlDriver
     {
-        new XmlDriver($path);
+        return new XmlDriver($path);
     }
 
     /**
