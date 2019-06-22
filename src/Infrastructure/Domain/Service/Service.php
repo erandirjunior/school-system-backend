@@ -1,6 +1,6 @@
 <?php
 
-namespace School\Infrastructure\Service;
+namespace School\Infrastructure\Domain\Service;
 
 class Service
 {

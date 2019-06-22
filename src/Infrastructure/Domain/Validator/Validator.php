@@ -1,6 +1,6 @@
 <?php
 
-namespace School\Infrastructure\Validator;
+namespace School\Infrastructure\Domain\Validator;
 
 abstract class Validator
 {
