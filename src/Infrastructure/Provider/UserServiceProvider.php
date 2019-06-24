@@ -1,6 +1,6 @@
 <?php
 
-namespace School\Infrastructure\Provider;
+namespace School\Infrastructure\Provider\Service;
 
 use School\Domain\User\UserService;
 use School\Domain\User\UserValidator;
