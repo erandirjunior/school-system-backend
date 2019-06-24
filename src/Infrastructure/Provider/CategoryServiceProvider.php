@@ -2,6 +2,7 @@
 
 namespace School\Infrastructure\Provider;
 
+use School\Domain\Category\Category;
 use School\Domain\Category\CategoryService;
 use School\Domain\Category\CategoryValidator;
 use School\Infrastructure\Factory\FactoryProvider;
@@ -12,7 +13,8 @@ class CategoryServiceProvider implements FactoryProvider
 	public function create()
 	{
 		$connection = EntityManagerFactory::connection();
+		$category 	= $connection->getRepository(Category::class);
 
-		return new CategoryService($connection, new CategoryValidator());
+		return new CategoryService($category, new CategoryValidator());
 	}
 }
