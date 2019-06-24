@@ -9,25 +9,17 @@ trait Response
 	 */
 
 	private static $response;
-	/**
-	 * @var int
-	 */
-	private $statusCode = 200;
 
 	public function json(array $data)
 	{
 		$this->inicialize();
 
+		//dump('aqui');
+
 		return self::$response
-			->setStatusCode($this->statusCode)
-			->json($data);
-	}
-
-	public function setStatusCode(int $statusCode)
-	{
-		$this->statusCode = $statusCode;
-
-		return $this;
+			->setStatusCode($data['code'])
+			->response()
+			->json($data['response']);
 	}
 
 	private function inicialize()
