@@ -24,7 +24,7 @@ class UserController extends Controller
 
 	public function show()
 	{
-		$this->service->show();
+		echo $this->json($this->service->show());
 	}
 
 	public function create()
@@ -32,7 +32,7 @@ class UserController extends Controller
 		$content 	= $this->request->all();
 		$response 	= $this->service->create($content);
 
-		echo $this->setStatusCode($response['code'])->json($response['message']);
+		echo $this->json($response);
 	}
 
 	public function update()
