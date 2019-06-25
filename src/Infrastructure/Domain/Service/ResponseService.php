@@ -19,7 +19,7 @@ trait ResponseService
 	public function response()
 	{
 		return [
-			'message' 	=> $this->message,
+			'response' 	=> $this->message,
 			'code' 		=> $this->statusCode
 		];
 	}
