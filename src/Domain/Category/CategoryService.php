@@ -3,6 +3,7 @@
 namespace School\Domain\Category;
 
 use Doctrine\ORM\EntityManager;
+use School\Infrastructure\Domain\Repository\CategoryRepository;
 use School\Infrastructure\Domain\Service\Service;
 
 class CategoryService extends Service
@@ -11,7 +12,8 @@ class CategoryService extends Service
 
 	private $validator;
 
-	public function __construct(EntityManager $repository, CategoryValidator $categoryValidator)
+	public function __construct(CategoryRepository $repository,
+								CategoryValidator $categoryValidator)
 	{
 		$this->repository 	= $repository;
 		$this->validator	= $categoryValidator;
@@ -24,6 +26,9 @@ class CategoryService extends Service
 
 		$this->repository->persist($category);
 		$this->repository->flush();
+
+		/*$this->repository->persist($category);
+		$this->repository->flush();*/
 	}
 
 	public function update()

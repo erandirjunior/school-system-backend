@@ -4,6 +4,8 @@ namespace School\Domain\User;
 
 use Doctrine\ORM\EntityManager;
 use School\Domain\Category\Category;
+use School\Infrastructure\Domain\Repository\CategoryRepository;
+use School\Infrastructure\Domain\Repository\UserRepository;
 use School\Infrastructure\Domain\Service\Service;
 
 class UserService extends Service
@@ -12,22 +14,33 @@ class UserService extends Service
 
 	private $validator;
 
-	public function __construct(EntityManager $repository, UserValidator $userValidator)
+	private $categoryRepository;
+
+	public function __construct(UserRepository $userRepository,
+								UserValidator $userValidator,
+								CategoryRepository $categoryRepository)
 	{
-		$this->repository 	= $repository;
+		$this->repository 	= $userRepository;
 		$this->validator	= $userValidator;
+		$this->categoryRepository = $categoryRepository;
 	}
 
 	public function show()
 	{
-		$users = $this->repository->getRepository(User::class)->findAll();
-		dump($users);
+		/**
+		 * @var UserRepository $a
+		 */
+		$a = $this->repository
+			->getRepository(User::class);
+
+		$users = $a->findAllAsArray();
+
+		return $this->setResponse($users)->response();
 	}
 
 	public function create($content)
 	{
-		$category = $this->repository
-			->getRepository(Category::class)
+		$category = $this->categoryRepository
 			->find($content['categoryId']);
 
 		$user = new User();
