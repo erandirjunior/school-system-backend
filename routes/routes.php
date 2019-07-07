@@ -11,16 +11,16 @@ $route->get('/', function() {
 });
 
 $route->group(['namespace' => 'School\Application\Controller'], function($route) {
-	$route->group(['prefix' => '/users'], function($route) {
-		$route->get('/', '\UserController@show');
+	$route->group(['prefix' => '/users', 'namespace' => '\User'], function($route) {
+		$route->get('/', '\UserShowerAction@show');
 
-		$route->post('/', '\UserController@create');
+		$route->post('/', '\UserCreatorAction@createAction');
 
-		$route->put('/{id:\d+}', '\UserController@update');
+		$route->put('/{id:\d+}', '\UserUpdaterAction@updateAction');
 
-		$route->delete('/{id:\d+}', '\UserController@delete');
+		$route->delete('/{id:\d+}', '\UserDestroyerAction@deleteAction');
 
-		$route->get('/{id:\d+}', '\UserController@showById');
+		$route->get('/{id:\d+}', '\UserShowerByAction@showById');
 	});
 
 	$route->group(['prefix' => '/categories'], function($route) {
