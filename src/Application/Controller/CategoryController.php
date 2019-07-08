@@ -18,7 +18,7 @@ class CategoryController extends Controller
 	public function __construct(Request $request,
 								CategoryServiceProvider $userServiceProvider)
 	{
-		$this->service = $userServiceProvider->create();
+		$this->service = $userServiceProvider->getInstance();
 		$this->request = $request;
 	}
 
