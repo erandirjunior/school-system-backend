@@ -9,5 +9,5 @@ interface FactoryProvider
 	 *
 	 * @return mixed
 	 */
-	public function create();
+	public function getInstance();
 }
