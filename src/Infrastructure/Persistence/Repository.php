@@ -16,7 +16,15 @@ abstract class Repository extends \Doctrine\ORM\EntityRepository
 
 			return true;
 		} catch (\Exception $e) {
+			dump($e->getMessage());
 			return false;
 		}
+	}
+
+	public function edit($entity)
+	{
+		$this->getEntityManager()->merge($entity);
+
+		return $this->flush();
 	}
 }
