@@ -2,7 +2,8 @@
 
 namespace School\Domain\User;
 
-use School\Infrastructure\Domain\Service\Service;
+use School\Infrastructure\Domain\Validator\Validator;
+use School\Infrastructure\Service\Service;
 
 class UserCreatorService extends Service
 {
@@ -10,20 +11,24 @@ class UserCreatorService extends Service
 
 	public function create($content)
 	{
-		/*$validator = $this->validator->validate($content);
+		$content = [
+			'name' => 'antonio-erandir',
+			'email' => 'dsdfdfsd',
+			'password' => '111'
+		];
+		$this->validator->validate($content);
 
-		if (!$validator->isValid()) {
-			return $this->setResponse(['Error'], 400)->response();
-		}*/
+		if (!$this->validator->fail()) {
+			return $this->setResponse($this->validator->getErrors(), 400)->response();
+		}
 
-		return $this->insert($content);
+		//return $this->insert($content);
 
 	}
 
 	private function insert($content)
 	{
 		$user = $this->createObject($content);
-		//$this->repository->persist($user);
 
 		$this->setResponse(['Error'], 500);
 
@@ -36,47 +41,11 @@ class UserCreatorService extends Service
 
 	private function createObject($content)
 	{
-		$category = $this->categoryRepository
-			->find($content['categoryId']);
-
 		$user = new User();
 		$user->setName($content['name'])
 			->setPassword($content['password'])
-			->setEmail($content['email'])
-			->setCategoryId($category);
+			->setEmail($content['email']);
 
 		return $user;
 	}
-
-	public function create1()
-	{
-		/*$category = new Category();
-		$category->setName('Teste');
-		$this->repository->persist($category);
-		$this->repository->flush();
-
-		$category = $this->repository->getRepository(Category::class)->find(2);*/
-
-//		dump($category);
-
-		$category = $this->categoryRepository
-			->find(1);
-
-		$user = new User();
-		$user
-			->setName('Erandir')
-			->setEmail('teste@teste')
-			->setPassword(11111)
-			->setCategoryId($category);
-
-		dump($user);
-
-
-        $this->repository->persist($user);
-        dump($this->repository->flush());
-
-        //dump($this->repository->getRepository(User::class, 1)->findAll());
-//        dump($this->repository->getRepository(User::class)->findAll());
-//        dump($this->repository->getRepository(User::class, 1)->getAll('teste@teste'));
-    }
 }

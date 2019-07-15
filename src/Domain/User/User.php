@@ -31,11 +31,6 @@ class User
 	private $password;
 
 	/**
-	 * @var
-	 */
-	private $categoryId;
-
-	/**
 	 * @return mixed
 	 */
 	public function getId()
@@ -99,26 +94,6 @@ class User
 	public function setPassword($password): User
 	{
 		$this->password = $password;
-
-		return $this;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getCategoryId()
-	{
-		return $this->categoryId;
-	}
-
-	/**
-	 * @param Category $categoryId
-	 *
-	 * @return User
-	 */
-	public function setCategoryId(Category $categoryId): User
-	{
-		$this->categoryId = $categoryId;
 
 		return $this;
 	}

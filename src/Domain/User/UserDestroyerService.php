@@ -2,17 +2,11 @@
 
 namespace School\Domain\User;
 
-use School\Infrastructure\Domain\Repository\UserRepository;
-use School\Infrastructure\Domain\Service\Service;
+use School\Infrastructure\Service\Service;
 
 class UserDestroyerService extends Service
 {
-	protected $repository;
-
-	public function __construct(UserRepository $userRepository)
-	{
-		$this->repository = $userRepository;
-	}
+	use UserBase;
 
 	public function delete($id)
 	{
