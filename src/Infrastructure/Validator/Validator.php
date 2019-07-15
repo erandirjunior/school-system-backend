@@ -40,7 +40,7 @@ abstract class Validator
 		return $this->messages;
 	}
 
-	public function "validate($content)
+	public function validate($content)
 	{
 		$this->make($content, $this->rules);
 	}
