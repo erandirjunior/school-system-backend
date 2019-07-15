@@ -4,9 +4,6 @@
           name="School\Domain\User\User"
           table="user"
           repository-class="School\Infrastructure\Domain\Repository\UserRepository">
-    <indexes>
-      <index name="user_category_id_fk" columns="category_id"/>
-    </indexes>
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
@@ -25,10 +22,5 @@
         <option name="fixed"/>
       </options>
     </field>
-    <many-to-one field="categoryId" target-entity="School\Domain\Category\Category" fetch="LAZY">
-      <join-columns>
-        <join-column name="category_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
   </entity>
 </doctrine-mapping>
