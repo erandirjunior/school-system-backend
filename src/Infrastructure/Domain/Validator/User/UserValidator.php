@@ -2,14 +2,17 @@
 
 namespace School\Infrastructure\Domain\Validator\User;
 
-use School\Infrastructure\Domain\Validator\Validator;
+use School\Infrastructure\Validator\Validator;
+use Respect\Validation\Validator as v;
 
 class UserValidator extends Validator
 {
-	protected $rules = [
-		'name' => 'string',
-		'email' => 'string',
-		'password' => 'string',
-		'category' => 'string',
-	];
+	public function __construct()
+	{
+		$this->rules = [
+			'name' 	=> v::notEmpty()->alpha("-'"),
+			'email' => v::optional(v::alpha("-'")),
+			'password' 	=> v::optional(v::phone())
+		];
+	}
 }

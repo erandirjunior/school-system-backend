@@ -2,7 +2,7 @@
 
 namespace School\Infrastructure\Domain\Validator\Category;
 
-use School\Infrastructure\Domain\Validator\Validator;
+use School\Infrastructure\Validator\Validator;
 
 class CategoryValidator extends Validator
 {
