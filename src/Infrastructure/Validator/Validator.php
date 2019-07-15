@@ -1,40 +1,47 @@
 <?php
 
-namespace School\Infrastructure\Domain\Validator;
+namespace School\Infrastructure\Validator;
 
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Translation\FileLoader;
-use Illuminate\Translation\Translator;
-use Illuminate\Validation\Factory;
+use Dotenv\Exception\ValidationException;
+use Respect\Validation\Validator as v;
 
-class Validator
+abstract class Validator
 {
-	private $factory;
+	protected $fail = true;
 
-	public function __construct()
+	protected $rules;
+
+	protected $messages = [];
+
+	protected function make($content, $rules)
 	{
-		$this->factory = new Factory(
-			$this->loadTranslator()
-		);
+		foreach ($rules as $key => $value) {
+			try {
+				$validator = v::key($key, $value);
+
+				if (!$validator->validate($content[$key])) {
+					$this->fail = false;
+				}
+
+				$validator->assert($content);
+			} catch (ValidationException $exception) {
+				$this->messages[] = $exception->getMessages()[0];
+			}
+		}
 	}
-	protected function loadTranslator()
+
+	public function fail()
 	{
-		//dump(dirname(dirname(__FILE__)));
-		$filesystem = new Filesystem();
-		$loader = new FileLoader(
-			$filesystem, dirname(dirname(__FILE__)) . '/lang');
-		$loader->addNamespace(
-			'lang',
-			dirname(dirname(__FILE__)) . '/lang'
-		);
-		$loader->load('en', 'validation', 'lang');
-		return new Translator($loader, 'en');
+		return $this->fail;
 	}
-	public function __call($method, $args)
+
+	public function getErrors()
 	{
-		return call_user_func_array(
-			[$this->factory, $method],
-			$args
-		);
+		return $this->messages;
+	}
+
+	public function validate($content)
+	{
+		$this->make($content, $this->rules);
 	}
 }
