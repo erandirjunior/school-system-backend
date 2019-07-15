@@ -12,9 +12,6 @@
         "symfony/console": "^4.2",
         "doctrine/orm": "^2.6",
         "beberlei/DoctrineExtensions": "^1.1",
-        "doctrine/migrations": "2.0",
-        "illuminate/filesystem": "^5.8",
-        "illuminate/translation": "^5.8",
-        "illuminate/validation": "^5.8"
+        "respect/validation": "^1.1"
     }
 }
