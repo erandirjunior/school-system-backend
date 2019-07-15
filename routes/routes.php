@@ -12,18 +12,18 @@ $route->get('/', function() {
 
 $route->group(['namespace' => 'School\Application\Controller'], function($route) {
 	$route->group(['prefix' => '/users', 'namespace' => '\User'], function($route) {
-		$route->get('/', '\UserShowerAction@show');
+		$route->get('/', '\UserCreatorAction@createAction');
 
-		$route->post('/', '\UserCreatorAction@createAction');
+		//$route->post('/', '\UserCreatorAction@createAction');
 
-		$route->put('/{id:\d+}', '\UserUpdaterAction@updateAction');
+		//$route->put('/{id:\d+}', '\UserUpdaterAction@updateAction');
 
-		$route->delete('/{id:\d+}', '\UserDestroyerAction@deleteAction');
+		//$route->delete('/{id:\d+}', '\UserDestroyerAction@deleteAction');
 
-		$route->get('/{id:\d+}', '\UserShowerByAction@showById');
+		//$route->get('/{id:\d+}', '\UserShowerByAction@showById');
 	});
 
-	$route->group(['prefix' => '/categories'], function($route) {
+	/*$route->group(['prefix' => '/categories'], function($route) {
 		$route->get('/', '\CategoryController@create');
 
 		$route->post('/', '\CategoryController@create');
@@ -33,7 +33,7 @@ $route->group(['namespace' => 'School\Application\Controller'], function($route)
 		$route->delete('/{id:\d+}', '\CategoryController@create');
 
 		$route->get('/{id:\d+}', '\CategoryController@showById');
-	});
+	});*/
 });
 
 $route->on();
