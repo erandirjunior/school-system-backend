@@ -7,12 +7,11 @@ use \PlugRoute\Http\RequestCreator;
 $route = new PlugRoute(new RouteContainer(), RequestCreator::create());
 
 $route->get('/', function() {
-	echo 'Home';
 });
 
 $route->group(['namespace' => 'School\Application\Controller'], function($route) {
 	$route->group(['prefix' => '/users', 'namespace' => '\User'], function($route) {
-		$route->get('/', '\UserCreatorAction@createAction');
+		$route->post('/', '\UserCreatorAction@createAction');
 
 		//$route->post('/', '\UserCreatorAction@createAction');
 
