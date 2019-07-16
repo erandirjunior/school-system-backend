@@ -2,13 +2,11 @@
 
 namespace School\Infrastructure\Validator;
 
-use Dotenv\Exception\ValidationException;
+use Respect\Validation\Exceptions\ValidationException;
 use Respect\Validation\Validator as v;
 
 abstract class Validator
 {
-	protected $fail = true;
-
 	protected $rules;
 
 	protected $messages = [];
@@ -18,9 +16,10 @@ abstract class Validator
 		foreach ($rules as $key => $value) {
 			try {
 				$validator = v::key($key, $value);
-
-				if (!$validator->validate($content[$key])) {
+				if (!array_key_exists($key, $content)) {
+					$this->messages[] = "Campo {$key} deve ser enviado";
 					$this->fail = false;
+					break;
 				}
 
 				$validator->assert($content);
@@ -32,7 +31,7 @@ abstract class Validator
 
 	public function fail()
 	{
-		return $this->fail;
+		return !$this->messages;
 	}
 
 	public function getErrors()
