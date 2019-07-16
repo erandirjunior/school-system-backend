@@ -24,7 +24,7 @@ class CategoryController extends Controller
 
 	public function show()
 	{
-		/*$a = new UserRepository((new EntityManagerDataBase())->getConnection(), new ClassMetadata(TbTeste::class));
+		/*$a = new UserRecordRepository((new EntityManagerDataBase())->getConnection(), new ClassMetadata(TbTeste::class));
 		dump($a->findAll());*/
 	}
 
