@@ -2,7 +2,7 @@
 
 namespace School\Domain\User;
 
-use School\Infrastructure\Domain\Repository\UserRepository;
+use School\Infrastructure\Domain\Repository\User\UserRepository;
 use School\Infrastructure\Domain\Validator\User\UserValidator;
 
 trait UserBase
