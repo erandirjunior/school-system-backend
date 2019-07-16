@@ -3,7 +3,7 @@
   <entity
           name="School\Domain\User\User"
           table="user"
-          repository-class="School\Infrastructure\Domain\Repository\UserRepository">
+          repository-class="School\Infrastructure\Domain\Repository\User\UserRepository">
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
